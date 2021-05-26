@@ -1,7 +1,22 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React from 'react';
-import {Button, Dimensions, Text, View} from 'react-native';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {Alert, Button, Dimensions, Text, View} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+import {fetchHome} from '../../Helper/fetchApi';
+
+type Product = {
+  id: number;
+  thumbnail: string;
+  name: string;
+  price: number;
+};
+
+interface HomeProduct {
+  name: string;
+  products: Product[];
+  order_num: number;
+}
 
 type renderitem = {
   title: string;
@@ -9,10 +24,45 @@ type renderitem = {
 };
 
 const {width: viewportWidth} = Dimensions.get('window');
+
 function HomeScreen() {
+  const [homeProduct, setHomeProduct] = useState([
+    {
+      name: '없음',
+      products: [{id: 0, thumbnail: '실패', name: '실패', price: 0}],
+      order_num: 0,
+    },
+  ]);
+
+  useEffect(() => {
+    let iniHome = async () => {
+      try {
+        await fetchHome()
+          .then(res => {
+            setHomeProduct(res.data.list);
+            console.log('ddd : ', homeProduct);
+          })
+          .catch(error => {
+            console.log(error); //cors error
+          });
+      } catch (error) {
+        Alert.alert('네트워크 에러', '상품 정보를 가져오지 못했어요.', [
+          {
+            text: '새로고침',
+            onPress: () => iniHome(),
+            style: 'cancel',
+          },
+          {text: '확인'},
+        ]);
+      }
+    };
+
+    iniHome();
+  }, []);
+
   let data = [
     {
-      title: 'Item 1',
+      title: 'Item one',
       text: 'Text 1',
     },
     {
@@ -33,7 +83,7 @@ function HomeScreen() {
     },
   ];
 
-  let _renderItem = ({item, index}: {item: renderitem; index: number}) => {
+  let _renderItem = ({item, index}: {item: HomeProduct; index: number}) => {
     return (
       <View
         style={{
@@ -44,8 +94,7 @@ function HomeScreen() {
           marginLeft: 25,
           marginRight: 25,
         }}>
-        <Text style={{fontSize: 30}}>{item.title}</Text>
-        <Text>{item.text}</Text>
+        <Text style={{fontSize: 30}}>{item.name}</Text>
       </View>
     );
   };
@@ -53,7 +102,7 @@ function HomeScreen() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Carousel
-        data={data}
+        data={homeProduct.find(e => e.order_num === 1)}
         renderItem={_renderItem}
         sliderWidth={viewportWidth}
         itemWidth={viewportWidth}
