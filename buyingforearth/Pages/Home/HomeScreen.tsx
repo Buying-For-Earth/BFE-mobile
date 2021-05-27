@@ -10,6 +10,7 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import Carousel from 'react-native-snap-carousel';
 import {fetchHome} from '../../Helper/fetchApi';
+import ItemList from './components/ItemList';
 
 type Product = {
   id: number;
@@ -94,25 +95,11 @@ function HomeScreen() {
             inactiveSlideOpacity={1}
             inactiveSlideScale={1}
           />
-          {/* TODO: change scrollview */}
+          {/* TODO: styled component */}
           <Text>{homeProduct[1].name}</Text>
-          <Carousel
-            data={homeProduct[1].products}
-            renderItem={_renderItem}
-            sliderWidth={viewportWidth}
-            itemWidth={200}
-            inactiveSlideOpacity={1}
-            inactiveSlideScale={1}
-          />
+          <ItemList products={homeProduct[1].products} />
           <Text>{homeProduct[2].name}</Text>
-          <Carousel
-            data={homeProduct[2].products}
-            renderItem={_renderItem}
-            sliderWidth={viewportWidth}
-            itemWidth={200}
-            inactiveSlideOpacity={1}
-            inactiveSlideScale={1}
-          />
+          <ItemList products={homeProduct[2].products} />
         </>
       )}
     </ScrollView>
