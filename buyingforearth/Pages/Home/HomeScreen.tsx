@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Dimensions,
-  Image,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, Alert, Dimensions, Image, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import Styled from 'styled-components/native';
 import Carousel from 'react-native-snap-carousel';
 import {fetchHome} from '../../Helper/fetchApi';
 import ItemList from './components/ItemList';
@@ -18,12 +12,6 @@ type Product = {
   name: string;
   price: number;
 };
-
-interface HomeProduct {
-  name: string;
-  products: Product[];
-  order_num: number;
-}
 
 const {width: viewportWidth} = Dimensions.get('window');
 
@@ -85,25 +73,43 @@ function HomeScreen() {
         <ActivityIndicator size="large" color="#34CDAB" />
       ) : (
         <>
-          <Text>{homeProduct[0].name}</Text>
-          <Carousel
-            data={homeProduct[0].products}
-            renderItem={_renderItem}
-            sliderWidth={viewportWidth}
-            itemWidth={viewportWidth}
-            slideStyle={{width: viewportWidth}}
-            inactiveSlideOpacity={1}
-            inactiveSlideScale={1}
-          />
+          <ContentsBox>
+            <Title>{homeProduct[0].name}</Title>
+            <Carousel
+              data={homeProduct[0].products}
+              renderItem={_renderItem}
+              sliderWidth={viewportWidth}
+              itemWidth={viewportWidth}
+              slideStyle={{width: viewportWidth}}
+              inactiveSlideOpacity={1}
+              inactiveSlideScale={1}
+            />
+          </ContentsBox>
           {/* TODO: styled component */}
-          <Text>{homeProduct[1].name}</Text>
-          <ItemList products={homeProduct[1].products} />
-          <Text>{homeProduct[2].name}</Text>
-          <ItemList products={homeProduct[2].products} />
+          <ContentsBox>
+            <Title>{homeProduct[1].name}</Title>
+            <ItemList products={homeProduct[1].products} />
+          </ContentsBox>
+          <ContentsBox>
+            <Title>{homeProduct[2].name}</Title>
+            <ItemList products={homeProduct[2].products} />
+          </ContentsBox>
         </>
       )}
     </ScrollView>
   );
 }
+
+const ContentsBox = Styled.View`
+  background: white;
+  margin-bottom: 10px;
+`;
+
+const Title = Styled.Text`
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+`;
 
 export default HomeScreen;

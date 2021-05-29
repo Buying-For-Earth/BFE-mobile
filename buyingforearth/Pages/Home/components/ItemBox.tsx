@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
+import Styled from 'styled-components/native';
 
 type Product = {
   id: number;
@@ -14,10 +15,19 @@ interface ItemBoxProps {
 
 function ItemBox({product}: ItemBoxProps) {
   return (
-    <View>
+    <ProductBox>
+      <Image
+        source={{uri: product.thumbnail}}
+        style={{width: 150, height: 200}}
+      />
       <Text>{product.name}</Text>
-    </View>
+      <Text>{product.price}</Text>
+    </ProductBox>
   );
 }
+
+const ProductBox = Styled.View`
+    margin: 0 10px;
+`;
 
 export default ItemBox;

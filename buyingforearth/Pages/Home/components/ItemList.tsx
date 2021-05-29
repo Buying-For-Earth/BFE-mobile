@@ -1,5 +1,6 @@
 import React from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView} from 'react-native';
+import Styled from 'styled-components/native';
 import ItemBox from './ItemBox';
 
 type Product = {
@@ -14,12 +15,18 @@ interface ItemListProps {
 
 function ItemList({products}: ItemListProps) {
   return (
-    <ScrollView>
+    <HorizontalScrollView
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}>
       {products.map(product => (
         <ItemBox key={product.id} product={product} />
       ))}
-    </ScrollView>
+    </HorizontalScrollView>
   );
 }
+
+const HorizontalScrollView = Styled.ScrollView`
+    margin: 0 10px 10px 10px;
+`;
 
 export default ItemList;
