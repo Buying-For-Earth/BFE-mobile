@@ -14,7 +14,7 @@ type Product = {
   price: number;
 };
 
-const {width: viewportWidth} = Dimensions.get('window');
+const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 
 function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -71,7 +71,11 @@ function HomeScreen() {
   return (
     <ScrollView>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#34CDAB" />
+        <ActivityIndicator
+          size="small"
+          color="#34CDAB"
+          style={{height: viewportHeight - 150}}
+        />
       ) : (
         <>
           <ContentsBox>

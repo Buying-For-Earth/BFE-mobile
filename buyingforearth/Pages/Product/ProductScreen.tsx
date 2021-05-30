@@ -1,6 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, Image, Text} from 'react-native';
+import {ActivityIndicator, Alert, Dimensions, Image, Text} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {fetchProduct} from '../../Helper/fetchApi';
 
@@ -45,6 +45,7 @@ type RootStackParamList = {
 
 type ProductScreenProps = StackScreenProps<RootStackParamList, 'Product'>;
 
+const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 function ProductScreen({route}: ProductScreenProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [product, setProduct] = useState<ProductDetail>();
@@ -76,7 +77,11 @@ function ProductScreen({route}: ProductScreenProps) {
   return (
     <ScrollView>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#34CDAB" />
+        <ActivityIndicator
+          size="small"
+          color="#34CDAB"
+          style={{height: viewportHeight - 150}}
+        />
       ) : (
         <>
           <Image
