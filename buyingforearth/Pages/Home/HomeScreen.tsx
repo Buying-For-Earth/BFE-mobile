@@ -33,13 +33,9 @@ function HomeScreen() {
     let iniHome = async () => {
       try {
         await fetchHome()
-          .then(res => {
-            setHomeProduct(res.data.list);
-          })
+          .then(res => setHomeProduct(res.data.list))
           .then(() => setIsLoading(false))
-          .catch(error => {
-            console.log(error); //ios : http error
-          });
+          .catch(error => console.log(error)); // ios : http error
       } catch (error) {
         Alert.alert('네트워크 에러', '상품 정보를 가져오지 못했어요.', [
           {
@@ -60,7 +56,7 @@ function HomeScreen() {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate('Product', {
-            item: item,
+            item,
           })
         }
         activeOpacity={1}>

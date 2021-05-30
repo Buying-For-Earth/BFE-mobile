@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {Image, Text, View} from 'react-native';
 import Styled from 'styled-components/native';
@@ -14,8 +15,15 @@ interface ItemBoxProps {
 }
 
 function ItemBox({product}: ItemBoxProps) {
+  const navigation = useNavigation();
   return (
-    <ProductBox>
+    <ProductBox
+      onPress={() =>
+        navigation.navigate('Product', {
+          item: product,
+        })
+      }
+      activeOpacity={1}>
       <Image
         source={{uri: product.thumbnail}}
         style={{width: 150, height: 200}}
@@ -26,7 +34,7 @@ function ItemBox({product}: ItemBoxProps) {
   );
 }
 
-const ProductBox = Styled.View`
+const ProductBox = Styled.TouchableOpacity`
     margin: 0 10px;
 `;
 
