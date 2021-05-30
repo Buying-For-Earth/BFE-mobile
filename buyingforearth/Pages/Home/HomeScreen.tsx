@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, Dimensions, Image, View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {ActivityIndicator, Alert, Dimensions, Image} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Styled from 'styled-components/native';
 import Carousel from 'react-native-snap-carousel';
 import {fetchHome} from '../../Helper/fetchApi';
 import ItemList from './components/ItemList';
+import {useNavigation} from '@react-navigation/core';
 
 type Product = {
   id: number;
@@ -24,6 +25,8 @@ function HomeScreen() {
       order_num: 0,
     },
   ]);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     setIsLoading(true);
@@ -54,16 +57,18 @@ function HomeScreen() {
 
   let _renderItem = ({item, index}: {item: Product; index: number}) => {
     return (
-      <View
-        style={{
-          backgroundColor: 'floralwhite',
-          height: 250,
-        }}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Product', {
+            item: item,
+          })
+        }
+        activeOpacity={1}>
         <Image
           source={{uri: item.thumbnail}}
           style={{width: '100%', height: 250}}
         />
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -85,7 +90,6 @@ function HomeScreen() {
               inactiveSlideScale={1}
             />
           </ContentsBox>
-          {/* TODO: styled component */}
           <ContentsBox>
             <Title>{homeProduct[1].name}</Title>
             <ItemList products={homeProduct[1].products} />
