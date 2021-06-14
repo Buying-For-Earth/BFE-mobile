@@ -1,5 +1,7 @@
 /**
  * @format
+ * #34CDAB
+ * #EA910B
  */
 
 import {AppRegistry} from 'react-native';
